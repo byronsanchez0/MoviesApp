@@ -1,5 +1,7 @@
 package com.example.moviesapp.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
@@ -20,15 +22,17 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.moviesapp.screens.favorites.FavoritesViewModel
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
-fun MainScreen() {
+fun MainScreen(favoritesViewModel: FavoritesViewModel) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomBar(navHostController = navController) },
     ) {
         Box(modifier = Modifier.padding(it)) {
-            BottomNavGraph(navHostController = navController)
+            BottomNavGraph(navHostController = navController, favoritesViewModel)
         }
 
     }
