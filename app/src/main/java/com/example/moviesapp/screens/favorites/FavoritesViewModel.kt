@@ -25,24 +25,13 @@ class FavoritesViewModel(private val favRepo: FavRepo) : ViewModel() {
     val detlBtn: MutableStateFlow<ImageVector> get() = delBtnStateFlow
     val movies: StateFlow<List<FavMovie>> get() = listFavMovie
 
-    fun addToFavMovie(movie: Movie) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val favMovie = FavMovie(
-                movie.id,
-                movie.title,
-                movie.poster,
-                movie.year
-            )
-            favRepo.addFavMovie(favMovie)
-        }
-    }
     fun deleteFavMovie(movie: FavMovie){
         viewModelScope.launch(Dispatchers.IO) {
             favRepo.deleteFavMovie(movie)
-            getFavMovies()
+            getFavMovies(movie.userId)
         }
     }
-    fun getFavMovies(){
+    fun getFavMovies(userId: Long){
         viewModelScope.launch(Dispatchers.IO) {
             val favcharacters = favRepo.getFavsMovies()
             listFavMovie.emit(favcharacters)

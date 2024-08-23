@@ -11,6 +11,8 @@ import com.example.moviesapp.entity.FavMovie
 interface FavMovieDao {
     @Query("SELECT * FROM FavMovie")
     fun getAll(): List<FavMovie>
+    @Query("SELECT * FROM FavMovie WHERE userId LIKE :userId")
+    fun getById(userId: Long): List<FavMovie>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg favmovies: FavMovie)
     @Delete

@@ -3,8 +3,8 @@ package com.example.moviesapp.models
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitCient {
-    private const val BASE_URL = "https://www.omdbapi.com/"
+class RetrofitCient {
+    private val BASE_URL = "https://www.omdbapi.com/"
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()

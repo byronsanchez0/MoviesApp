@@ -3,4 +3,5 @@
     <string name="app_name">MoviesApp</string>
     <string name="enter_movie_name">Search for a movie</string>
     <string name="search_txt">Search</string>
+    <string name="start_playlist">add to favorites</string>
 </resources>

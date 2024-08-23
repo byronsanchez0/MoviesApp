@@ -1,5 +1,6 @@
 package com.example.moviesapp.screens.favorites
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,21 +31,21 @@ import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun FavoritesScreen(favoritesViewModel: FavoritesViewModel) {
+fun FavoritesScreen(moviesViewModel: FavoritesViewModel) {
     val context = LocalContext.current
-//    val id = getUserId(context)
-    favoritesViewModel.getFavMovies()
-    val movies by favoritesViewModel.movies.collectAsState()
+    val id = getUserId(context)
+    moviesViewModel.getFavMovies(id.toLong())
+    val movies by moviesViewModel.movies.collectAsState()
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        HorizontalPager(
+        com.google.accompanist.pager.HorizontalPager(
             count = movies.size,
             modifier = Modifier.fillMaxSize(),
-            state = rememberPagerState()
+            state = com.google.accompanist.pager.rememberPagerState()
         ) { pageIndex ->
             Card(
                 shape = RoundedCornerShape(10.dp),
@@ -62,17 +63,18 @@ fun FavoritesScreen(favoritesViewModel: FavoritesViewModel) {
                 }
             ) {
                 val item = movies[pageIndex]
-                ItemCard(movie = item, favoritesViewModel)
+                ItemCard(movie = item, moviesViewModel)
             }
         }
     }
 }
 
-@Composable
-fun ItemCard(movie: FavMovie, favoritesViewModel: FavoritesViewModel) {
-    val delBtn by favoritesViewModel.detlBtn.collectAsState()
 
-    IconButton(onClick = { favoritesViewModel.deleteFavMovie(movie) }) {
+@Composable
+fun ItemCard(movie: FavMovie, moviesViewModel: FavoritesViewModel) {
+    val delBtn by moviesViewModel.detlBtn.collectAsState()
+
+    IconButton(onClick = { moviesViewModel.deleteFavMovie(movie) }) {
         Icon(
             delBtn,
             contentDescription = null,
@@ -86,4 +88,9 @@ fun ItemCard(movie: FavMovie, favoritesViewModel: FavoritesViewModel) {
         contentDescription = "Movie Poster",
         modifier = Modifier.size(width = 420.dp, height = 420.dp)
     )
+}
+
+private fun getUserId(context: Context): Int {
+    val sharedPreferences = context.getSharedPreferences("sp", Context.MODE_PRIVATE)
+    return sharedPreferences.getInt("userId", 0)
 }
