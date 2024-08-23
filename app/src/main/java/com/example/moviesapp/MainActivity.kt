@@ -43,21 +43,27 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.moviesapp.models.Movie
 import com.example.moviesapp.models.RetrofitCient.searchMovies
 import com.example.moviesapp.navigation.MainScreen
+import com.example.moviesapp.repository.FavRepo
+import com.example.moviesapp.screens.favorites.FavoritesViewModel
 import com.example.moviesapp.ui.theme.MoviesAppTheme
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //
+//        val favRespo = FavRepo()
         setContent {
+//            val favoritesViewModel = FavoritesViewModel()
             MoviesAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+//                    MainScreen()
                 }
             }
         }
@@ -76,7 +82,7 @@ fun MovieSearchScreen() {
             onValueChange = { txt ->
                 searchTerm = txt
             },
-            label = { Text(text = "Enter a movie name") },
+            label = { Text(text = stringResource(id = R.string.enter_movie_name)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
@@ -90,7 +96,7 @@ fun MovieSearchScreen() {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Search",
+                text = stringResource(id = R.string.search_txt),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.inverseSurface
             )
